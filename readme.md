@@ -5,6 +5,7 @@ DeepMD基本流程：
 在介绍DP具体方法之前, 我们首先定义一个 <img src="https://latex.codecogs.com/svg.image?N"> 原子系统的坐标矩阵 <img src="https://latex.codecogs.com/svg.image?\mathcal{R}&space;\in&space;\mathbb{R}^{N&space;\times&space;3}">，
 
 <img src="https://latex.codecogs.com/svg.image?\mathcal{R}=\left\{{r}_{1}^{T},&space;\cdots,&space;{r}_{i}^{T},&space;\cdots,&space;{r}_{N}^{T}\right\}^{T},&space;{r}_{i}=\left(x_{i},&space;y_{i},&space;z_{i}\right),(1)">
+
 <img src="https://latex.codecogs.com/svg.image?{r}_{i}"> 表示原子 <img src="https://latex.codecogs.com/svg.image?i"> 的三维笛卡尔坐标。此外，我们将坐标矩阵 <img src="https://latex.codecogs.com/svg.image?\mathcal{R}"> 转换成局域坐标矩阵 <img src="https://latex.codecogs.com/svg.image?\left\{{\mathcal{R}}^{i}\right\}_{i=1}^{N}">,
 
 <img src="https://latex.codecogs.com/svg.image?{\mathcal{R}}^{i}=\left\{{r}_{1&space;i}^{T},&space;\cdots,&space;{r}_{j&space;i}^{T},&space;\cdots,&space;{r}_{N_{i},&space;i}^{T}\right\}^{T},&space;{r}_{j&space;i}=\left(x_{j&space;i},&space;y_{j&space;i},&space;z_{j&space;i}\right),(2)">
