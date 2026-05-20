@@ -26,7 +26,7 @@ $$E=\sum_{i} E_{i},(3)$$
 
 $$E=\sum_{i} E_{i}=\sum_{i} E\left(\mathcal{R}^{i}\right),(4)$$
 
-${\mathcal{R}}^{i}$ 被映射到特征矩阵（描述子）${\mathcal{D}}^{i}$，保留了体系的平移、旋转和置换不变性。具体来说，${\mathcal{R}}^{i} \in \mathbb{R}^{N_{i} \times 3}$ 首先被映射到一个扩展矩阵 $\tilde{{\mathcal{R}}}^{i} \in \mathbb{R}^{N_{i} \times 4}$：
+${\mathcal{R}}^{i}$ 被映射到特征矩阵（描述子）${\mathcal{D}}^{i}$，保留了体系的平移、旋转和置换不变性。具体来说，${\mathcal{R}}^{i} \in \mathbb{R}^{N_{i} \times 3}$ 首先被映射到一个扩展矩阵 $\tilde{\mathcal{R}}^{i} \in \mathbb{R}^{N_{i} \times 4}$：
 
 $$\{x_{j i}, y_{j i}, z_{j i}\} \mapsto\{s\left(r_{j i}\right), \hat{x}_{j i}, \hat{y}_{j i}, \hat{z}_{j i}\},(5)$$
 
@@ -36,18 +36,19 @@ $$
 s\left(r_{j i}\right)=
 \begin{cases}
 \dfrac{1}{r_{j i}}, & r_{j i}<r_{c s} \\[12pt]
-\dfrac{1}{r_{j i}} \left\{
+\dfrac{1}{r_{j i}} \biggl\{
 \left(\dfrac{r_{j i} - r_{c s}}{ r_c - r_{c s}}\right)^3
 \left(-6 \left(\dfrac{r_{j i} - r_{c s}}{ r_c - r_{c s}}\right)^2 +15 \dfrac{r_{j i} - r_{c s}}{ r_c - r_{c s}} -10\right)
-+1 \right\}, & r_{c s}<r_{j i}<r_{c} \\[12pt]
++1 \biggr\}, & r_{c s}<r_{j i}<r_{c} \\[12pt]
 0, & r_{j i}>r_{c}
-\end{cases},(6)$$
+\end{cases},(6)
+$$
 
 其中 $r_{j i}$ 是原子 $i$ 和原子 $j$ 之间的欧式距离，$r_{cs}$ 是"平滑截断半径"。
 
 ## 3. 嵌入网络
 
-引入 $s\left(r_{j i}\right)$ 之后，$\tilde{{\mathcal{R}}}^{i}$ 里的各个参数会从 $r_{cs}$ 到 $r_{c}$ 平滑地趋于零。
+引入 $s\left(r_{j i}\right)$ 之后，$\tilde{\mathcal{R}}^{i}$ 里的各个参数会从 $r_{cs}$ 到 $r_{c}$ 平滑地趋于零。
 
 定义局域嵌入网络 $\mathcal{N}^{e}_{\alpha_j,\alpha_i}(s(r_{ji}))$，它是一个神经网络：
 
@@ -57,7 +58,7 @@ s\left(r_{j i}\right)=
 
 将输出整理为嵌入矩阵：$(\mathcal{G}^{i})_{jk} = (\mathcal{G}(s(r_{ji})))_{k}$
 
-$\{s\left(r_{j i}\right)\}_{j=1}^{N_i}$（即 $\tilde{{\mathcal{R}}}^{i}$ 的第一列）通过一个嵌入神经网络得到一个嵌入矩阵 $\mathcal{G}^{i 1} \in \mathbb{R}^{N_{i} \times M_{1}}$。选取 ${\mathcal{G}}^{i 1} \in \mathbb{R}^{N_{i} \times M_{1}}$ 的前 $M_{2}(<M_{1})$ 列，得到另一个嵌入矩阵 $\mathcal{G}^{i 2} \in \mathbb{R}^{N_{i} \times M_{2}}$。
+$\{s\left(r_{j i}\right)\}_{j=1}^{N_i}$（即 $\tilde{\mathcal{R}}^{i}$ 的第一列）通过一个嵌入神经网络得到一个嵌入矩阵 $\mathcal{G}^{i 1} \in \mathbb{R}^{N_{i} \times M_{1}}$。选取 ${\mathcal{G}}^{i 1} \in \mathbb{R}^{N_{i} \times M_{1}}$ 的前 $M_{2}(<M_{1})$ 列，得到另一个嵌入矩阵 $\mathcal{G}^{i 2} \in \mathbb{R}^{N_{i} \times M_{2}}$。
 
 ## 4. 对称性特征矩阵
 
