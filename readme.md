@@ -8,11 +8,11 @@
 
 $$\mathcal{R}=\{{r}_{1}^{T}, \cdots, {r}_{i}^{T}, \cdots, {r}_{N}^{T}\}^{T}, {r}_{i}=\left(x_{i}, y_{i}, z_{i}\right),(1)$$
 
-${r}_{i}$ 表示原子 $i$ 的三维笛卡尔坐标。将坐标矩阵 $\mathcal{R}$ 转换成局域坐标矩阵 $\{{\mathcal{R}}^{i}\}_{i=1}^{N}$：
+$r_{i}$ 表示原子 $i$ 的三维笛卡尔坐标。将坐标矩阵 $\mathcal{R}$ 转换成局域坐标矩阵 $\{{\mathcal{R}}^{i}\}_{i=1}^{N}$：
 
 $${\mathcal{R}}^{i}=\{{r}_{1 i}^{T}, \cdots, {r}_{j i}^{T}, \cdots, {r}_{N_{i}, i}^{T}\}^{T}, {r}_{j i}=\left(x_{j i}, y_{j i}, z_{j i}\right),(2)$$
 
-其中 $j$ 和 $N_{i}$ 是原子 $i$ 在截断半径 $r_{c}$ 内近邻原子的编号，$j \left(1 \leq j \leq N_{i}\right)$ 表示原子 $i$ 的近邻原子编号，${r}_{j i} \equiv {r}_{j}-{r}_{i}$ 表示原子 $j$ 和原子 $i$ 之间的相对距离。
+其中 $j$ 和 $N_{i}$ 是原子 $i$ 在截断半径 $r_{c}$ 内近邻原子的编号，$j \left(1 \leq j \leq N_{i}\right)$ 表示原子 $i$ 的近邻原子编号，$r_{j i} \equiv r_{j}-r_{i}$ 表示原子 $j$ 和原子 $i$ 之间的相对距离。
 
 $r_{c}$ 是**用户预设的超参数**，取决于要模拟的物理体系。
 
@@ -85,13 +85,13 @@ $$
 
 - **总能量**：$\displaystyle E=\sum_{i} E_{i}$
 - **原子力**：$F = -\nabla_{\mathcal{R}}E$（能量对坐标的负梯度）
-- **维里张量**：$\Xi = \operatorname{tr}[\mathcal{R} \otimes F]$
+- **维里张量**：$\Xi = \mathrm{tr}[\mathcal{R} \otimes F]$
 
 维里张量（virial tensor）是分子动力学/材料模拟中描述**应力状态**的量，本质上是系统对外部压力的响应。
 
 ## 7. 训练过程
 
-在公式 (8) 中，${w}_{k l}$ 是权重参数，${b}_{k}$ 是偏置参数，$\varphi$ 是一个非线性的激活函数。在最后一层的输出节点是没有非线性激活函数的。嵌入网络和拟合网络中的参数由最小化代价函数 $L$ 得到：
+在公式 (8) 中，$w_{k l}$ 是权重参数，$b_{k}$ 是偏置参数，$\varphi$ 是一个非线性的激活函数。在最后一层的输出节点是没有非线性激活函数的。嵌入网络和拟合网络中的参数由最小化代价函数 $L$ 得到：
 
 $$
 L\left(p_{\epsilon}, p_{f}, p_{\xi}\right)=\frac{p_{\epsilon}}{N} \Delta \epsilon^{2}+\frac{p_{f}}{3 N} \sum_{i}\left|\Delta {F}_{i}\right|^{2}+\frac{p_{\xi}}{9 N}\|\Delta \xi\|^{2},(9)
@@ -100,7 +100,7 @@ $$
 其中 $\Delta \epsilon$、$\Delta {F}_{i}$ 和 $\Delta \xi$ 分别表示能量、力和维里的方均根误差（RMSE）。在训练过程中，前置因子 $p_{\epsilon}$、$p_{f}$ 和 $p_{\xi}$ 由下式决定：
 
 $$
-p(t)=p^{\operatorname{limit}}\left[1-\frac{r_{l}(t)}{r_{l}^{0}}\right]+p^{\operatorname{start}}\left[\frac{r_{l}(t)}{r_{l}^{0}}\right],(10)
+p(t)=p^{\mathrm{limit}}\left[1-\frac{r_{l}(t)}{r_{l}^{0}}\right]+p^{\mathrm{start}}\left[\frac{r_{l}(t)}{r_{l}^{0}}\right],(10)
 $$
 
 其中 $r_{l}(t)$ 和 $r_{l}^{0}$ 分别表示在训练步数为 $t$ 和训练步数为 $0$ 时的学习率。$r_{l}(t)$ 的定义为：
