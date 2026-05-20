@@ -1,16 +1,17 @@
 ## DeepMD基本流程：
 
-![[Pasted image 20260520150832.png]]
+
+![流程](images/v2-5f49363ccfbe5bea68286aece684e6b2_r.png)
 
 ## 1. 构建局域环境
 
 在介绍DP具体方法之前, 我们首先定义一个 $N$ 原子系统的坐标矩阵 $\mathcal{R} \in \mathbb{R}^{N \times 3}$，
 
-$$\mathcal{R}=\left\{{r}_{1}^{T}, \cdots, {r}_{i}^{T}, \cdots, {r}_{N}^{T}\right\}^{T}, {r}_{i}=\left(x_{i}, y_{i}, z_{i}\right),(1)$$
+$$\mathcal{R}=\{{r}_{1}^{T}, \cdots, {r}_{i}^{T}, \cdots, {r}_{N}^{T}\}^{T}, {r}_{i}=\left(x_{i}, y_{i}, z_{i}\right),(1)$$
 
-${r}_{i}$ 表示原子 $i$ 的三维笛卡尔坐标。此外，我们将坐标矩阵 $\mathcal{R}$ 转换成局域坐标矩阵 $\left\{{\mathcal{R}}^{i}\right\}_{i=1}^{N}$,
+${r}_{i}$ 表示原子 $i$ 的三维笛卡尔坐标。此外，我们将坐标矩阵 $\mathcal{R}$ 转换成局域坐标矩阵 $\{{\mathcal{R}}^{i}\}_{i=1}^{N}$,
 
-$${\mathcal{R}}^{i}=\left\{{r}_{1 i}^{T}, \cdots, {r}_{j i}^{T}, \cdots, {r}_{N_{i}, i}^{T}\right\}^{T}, {r}_{j i}=\left(x_{j i}, y_{j i}, z_{j i}\right),(2)$$
+$${\mathcal{R}}^{i}=\{{r}_{1 i}^{T}, \cdots, {r}_{j i}^{T}, \cdots, {r}_{N_{i}, i}^{T}\}^{T}, {r}_{j i}=\left(x_{j i}, y_{j i}, z_{j i}\right),(2)$$
 
 其中 $j$ 和 $N_{i}$ 是原子 $i$ 在截断半径 $r_{c}$ 内近邻原子的编号， $j \left(1 \leq j \leq N_{i}\right)$ 表示原子 $i$ 的近邻原子编号, ${r}_{j i} \equiv {r}_{j}-{r}_{i}$ 表示的是原子 $j$ 和原子 $i$ 之间的相对距离。
 
@@ -28,11 +29,11 @@ $$E=\sum_{i} E_{i}=\sum_{i} E\left(\mathcal{R}^{i}\right),(4)$$
 
 通过将 ${\mathcal{R}}^{i}$ 要映射到特征矩阵，或者说描述子 ${\mathcal{D}}^{i}$，这里的 ${\mathcal{D}}^{i}$ 保留了体系的平移、旋转和置换不变性。具体来说， ${\mathcal{R}}^{i} \in \mathbb{R}^{N_{i} \times 3}$ 首先被映射到一个扩展矩阵 $\tilde{{\mathcal{R}}}^{i} \in \mathbb{R}^{N_{i} \times 4}$，
 
-$$\left\{x_{j i}, y_{j i}, z_{j i}\right\} \mapsto\left\{s\left(r_{j i}\right), \hat{x}_{j i}, \hat{y}_{j i}, \hat{z}_{j i}\right\},(5)$$
+$$\{x_{j i}, y_{j i}, z_{j i}\} \mapsto\{s\left(r_{j i}\right), \hat{x}_{j i}, \hat{y}_{j i}, \hat{z}_{j i}\},(5)$$
 
 其中 $\hat{x}_{j i}=\dfrac{s\left(r_{j i}\right) x_{j i}}{r_{j i}}$, $\hat{y}_{j i}=\dfrac{s\left(r_{j i}\right) y_{j i}}{r_{j i}}$, $\hat{z}_{j i}=\dfrac{s\left(r_{j i}\right) z_{j i}}{r_{j i}}$. $s\left(r_{j i}\right)$ 是一个权重函数，用来减少离原子 $i$ 比较远的原子的权重, 定义如下:
 
-$$s\left(r_{j i}\right)= \begin{cases}\dfrac{1}{r_{j i}}, & r_{j i}<r_{c s} \\[8pt] \dfrac{1}{r_{j i}} \left\{ \left(\dfrac{r_{j i} - r_{c s}}{ r_c - r_{c s}}\right)^3 \left(-6 \left(\dfrac{r_{j i} - r_{c s}}{ r_c - r_{c s}}\right)^2 +15 \dfrac{r_{j i} - r_{c s}}{ r_c - r_{c s}} -10\right) +1 \right\}, & r_{c s}<r_{j i}<r_{c} \\[8pt] 0, & r_{j i}>r_{c}\end{cases},(6)$$
+$$s\left(r_{j i}\right)= \begin{cases}\dfrac{1}{r_{j i}}, & r_{j i}<r_{c s} \\[8pt] \dfrac{1}{r_{j i}} \{ \left(\dfrac{r_{j i} - r_{c s}}{ r_c - r_{c s}}\right)^3 \left(-6 \left(\dfrac{r_{j i} - r_{c s}}{ r_c - r_{c s}}\right)^2 +15 \dfrac{r_{j i} - r_{c s}}{ r_c - r_{c s}} -10\right) +1 \}, & r_{c s}<r_{j i}<r_{c} \\[8pt] 0, & r_{j i}>r_{c}\end{cases},(6)$$
 
 其中 $r_{j i}$ 是原子 $i$ 和原子 $j$ 之间的欧式距离, $r_{cs}$ 是"平滑截断半径"。
 
