@@ -28,12 +28,12 @@ $$E=\sum_{i} E_{i}=\sum_{i} E\left(\mathcal{R}^{i}\right),(4)$$
 
 ${\mathcal{R}}^{i}$ 被映射到特征矩阵（描述子）${\mathcal{D}}^{i}$，保留了体系的平移、旋转和置换不变性。具体来说，${\mathcal{R}}^{i} \in \mathbb{R}^{N_{i} \times 3}$ 首先被映射到一个扩展矩阵 $\tilde{\mathcal{R}}^{i} \in \mathbb{R}^{N_{i} \times 4}$：
 
-$$\{x_{j i}, y_{j i}, z_{j i}\} \mapsto\{s\left(r_{j i}\right), \hat{x}_{j i}, \hat{y}_{j i}, \hat{z}_{j i}\},(5)$$
+$$\{x_{j i}, y_{j i}, z_{j i}\} \mapsto\{s(r_{j i}), \hat{x}_{j i}, \hat{y}_{j i}, \hat{z}_{j i}\},(5)$$
 
-其中 $\hat{x}_{j i}=\dfrac{s\left(r_{j i}\right) x_{j i}}{r_{j i}}$，$\hat{y}_{j i}=\dfrac{s\left(r_{j i}\right) y_{j i}}{r_{j i}}$，$\hat{z}_{j i}=\dfrac{s\left(r_{j i}\right) z_{j i}}{r_{j i}}$。$s\left(r_{j i}\right)$ 是一个权重函数，用来减少离原子 $i$ 比较远的原子的权重，定义如下：
+其中 $\hat{x}_{j i}=\dfrac{s(r_{j i}) x_{j i}}{r_{j i}}$，$\hat{y}_{j i}=\dfrac{s(r_{j i}) y_{j i}}{r_{j i}}$，$\hat{z}_{j i}=\dfrac{s(r_{j i}) z_{j i}}{r_{j i}}$。$s(r_{j i})$ 是一个权重函数，用来减少离原子 $i$ 比较远的原子的权重，定义如下：
 
 $$
-s\left(r_{j i}\right)=
+s(r_{j i})=
 \begin{cases}
 \dfrac{1}{r_{j i}}, & r_{j i}<r_{c s} \\[12pt]
 \dfrac{1}{r_{j i}} \biggl\{
@@ -48,17 +48,17 @@ $$
 
 ## 3. 嵌入网络
 
-引入 $s\left(r_{j i}\right)$ 之后，$\tilde{\mathcal{R}}^{i}$ 里的各个参数会从 $r_{cs}$ 到 $r_{c}$ 平滑地趋于零。
+引入 $s(r_{j i})$ 之后，$\tilde{\mathcal{R}}^{i}$ 里的各个参数会从 $r_{cs}$ 到 $r_{c}$ 平滑地趋于零。
 
 定义局域嵌入网络 $\mathcal{N}^{e}_{\alpha_j,\alpha_i}(s(r_{ji}))$，它是一个神经网络：
 
-- **输入**：标量 $s\left(r_{j i}\right)$（仅径向距离信息）
+- **输入**：标量 $s(r_{j i})$（仅径向距离信息）
 - **输出**：$M_1$ 维向量
 - 网络参数取决于中心原子 $i$ 和邻居原子 $j$ 的化学物种组合
 
 将输出整理为嵌入矩阵：$(\mathcal{G}^{i})_{jk} = (\mathcal{G}(s(r_{ji})))_{k}$
 
-$\{s\left(r_{j i}\right)\}_{j=1}^{N_i}$（即 $\tilde{\mathcal{R}}^{i}$ 的第一列）通过一个嵌入神经网络得到一个嵌入矩阵 $\mathcal{G}^{i 1} \in \mathbb{R}^{N_{i} \times M_{1}}$。选取 ${\mathcal{G}}^{i 1} \in \mathbb{R}^{N_{i} \times M_{1}}$ 的前 $M_{2}(<M_{1})$ 列，得到另一个嵌入矩阵 $\mathcal{G}^{i 2} \in \mathbb{R}^{N_{i} \times M_{2}}$。
+$\{s(r_{j i})\}_{j=1}^{N_i}$（即 $\tilde{\mathcal{R}}^{i}$ 的第一列）通过一个嵌入神经网络得到一个嵌入矩阵 $\mathcal{G}^{i 1} \in \mathbb{R}^{N_{i} \times M_{1}}$。选取 ${\mathcal{G}}^{i 1} \in \mathbb{R}^{N_{i} \times M_{1}}$ 的前 $M_{2}(<M_{1})$ 列，得到另一个嵌入矩阵 $\mathcal{G}^{i 2} \in \mathbb{R}^{N_{i} \times M_{2}}$。
 
 ## 4. 对称性特征矩阵
 
@@ -68,7 +68,7 @@ $$
 \mathcal{D}^{i}=\left(\mathcal{G}^{i 1}\right)^{T} \tilde{\mathcal{R}}^{i}\left(\tilde{\mathcal{R}}^{i}\right)^{T} \mathcal{G}^{i 2},(7)
 $$
 
-在描述子中，平移和旋转不变性由矩阵乘积 $\tilde{\mathcal{R}}^{i}\left(\tilde{\mathcal{R}}^{i}\right)^{T}$ 保证，置换不变性由矩阵乘积 $\left(\mathcal{G}^{i}\right)^{T} \tilde{\mathcal{R}}^{i}$ 保证。
+在描述子中，平移和旋转不变性由矩阵乘积 $\tilde{\mathcal{R}}^{i}(\tilde{\mathcal{R}}^{i})^{T}$ 保证，置换不变性由矩阵乘积 $(\mathcal{G}^{i})^{T} \tilde{\mathcal{R}}^{i}$ 保证。
 
 ## 5. 拟合网络
 
@@ -86,7 +86,7 @@ $$
 
 - **总能量**：$\displaystyle E=\sum_{i} E_{i}$
 - **原子力**：$F = -\nabla_{\mathcal{R}}E$（能量对坐标的负梯度）
-- **维里张量**：$\Xi = \mathrm{tr}[\mathcal{R} \otimes F]$
+- **维里张量**：$\Xi = \operatorname{tr}[\mathcal{R} \otimes F]$
 
 维里张量（virial tensor）是分子动力学/材料模拟中描述**应力状态**的量，本质上是系统对外部压力的响应。
 
