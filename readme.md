@@ -1,6 +1,6 @@
 ## DeepMD基本流程：
 
-![[Pasted image 20260520150832.png]]
+![流程](images/v2-5f49363ccfbe5bea68286aece684e6b2_r.png)
 
 ## 1. 构建局域环境
 
@@ -12,7 +12,7 @@
 
 <img src="https://latex.codecogs.com/svg.image?{\mathcal{R}}^{i}=\left\{{r}_{1i}^{T},\cdots,{r}_{ji}^{T},\cdots,{r}_{N_{i},i}^{T}\right\}^{T},{r}_{ji}=\left(x_{ji},y_{ji},z_{ji}\right),(2)">
 
-其中 <img src="https://latex.codecogs.com/svg.image?j"> 和 <img src="https://latex.codecogs.com/svg.image?N_{i}"> 是原子 <img src="https://latex.codecogs.com/svg.image?i"> 在截断半径 <img src="https://latex.codecogs.com/svg.image?r_{c}"> 内近邻原子的编号，<img src="https://latex.codecogs.com/svg.image?j(1\leq j\leq N_{i})"> 表示原子 <img src="https://latex.codecogs.com/svg.image?i"> 的近邻原子编号, <img src="https://latex.codecogs.com/svg.image?{r}_{ji}\equiv{r}_{j}-{r}_{i}"> 表示的是原子 <img src="https://latex.codecogs.com/svg.image?j"> 和原子 <img src="https://latex.codecogs.com/svg.image?i"> 之间的相对距离。
+其中 <img src="https://latex.codecogs.com/svg.image?j"> 和 <img src="https://latex.codecogs.com/svg.image?N_{i}"> 是原子 <img src="https://latex.codecogs.com/svg.image?i"> 在截断半径 <img src="https://latex.codecogs.com/svg.image?r_{c}"> 内近邻原子的编号，<img src="https://latex.codecogs.com/svg.image?j(1\leq{}j\leq{}N_{i})"> 表示原子 <img src="https://latex.codecogs.com/svg.image?i"> 的近邻原子编号, <img src="https://latex.codecogs.com/svg.image?{r}_{ji}\equiv{r}_{j}-{r}_{i}"> 表示的是原子 <img src="https://latex.codecogs.com/svg.image?j"> 和原子 <img src="https://latex.codecogs.com/svg.image?i"> 之间的相对距离。
 
 <img src="https://latex.codecogs.com/svg.image?r_{c}"> 是**用户预设的超参数**，取决于要模拟的物理体系
 
@@ -32,7 +32,7 @@
 
 其中 <img src="https://latex.codecogs.com/svg.image?\hat{x}_{ji}=\dfrac{s\left(r_{ji}\right)x_{ji}}{r_{ji}}">, <img src="https://latex.codecogs.com/svg.image?\hat{y}_{ji}=\dfrac{s\left(r_{ji}\right)y_{ji}}{r_{ji}}">, <img src="https://latex.codecogs.com/svg.image?\hat{z}_{ji}=\dfrac{s\left(r_{ji}\right)z_{ji}}{r_{ji}}">. <img src="https://latex.codecogs.com/svg.image?s\left(r_{ji}\right)"> 是一个权重函数，用来减少离原子 <img src="https://latex.codecogs.com/svg.image?i"> 比较远的原子的权重, 定义如下:
 
-<img src="https://latex.codecogs.com/svg.image?s\left(r_{ji}\right)=\begin{cases}\dfrac{1}{r_{ji}}, %26 r_{ji}%3C r_{cs}\\[8pt]\dfrac{1}{r_{ji}}\left\{\left(\dfrac{r_{ji}-r_{cs}}{r_c-r_{cs}}\right)^3\left(-6\left(\dfrac{r_{ji}-r_{cs}}{r_c-r_{cs}}\right)^2+15\dfrac{r_{ji}-r_{cs}}{r_c-r_{cs}}-10\right)+1\right\}, %26 r_{cs}%3C r_{ji}%3C r_{c}\\[8pt]0, %26 r_{ji}%3E r_{c}\end{cases},(6)">
+<img src="https://latex.codecogs.com/svg.image?\dpi{110}s\left(r_{j&space;i}\right)=&space;\begin{cases}\frac{1}{r_{j&space;i}},&space;&&space;r_{j&space;i}<r_{c&space;s}&space;\\&space;\frac{1}{r_{j&space;i}}&space;\{&space;{(\frac{r_{j&space;i}&space;-&space;r_{c&space;s}}{&space;r_c&space;-&space;r_{c&space;s}})}^3&space;(-6&space;{(\frac{r_{j&space;i}&space;-&space;r_{c&space;s}}{&space;r_c&space;-&space;r_{c&space;s}})}^2&space;&plus;15&space;\frac{r_{j&space;i}&space;-&space;r_{c&space;s}}{&space;r_c&space;-&space;r_{c&space;s}}&space;-10)&space;&plus;1&space;\},&space;&&space;r_{c&space;s}<r_{j&space;i}<r_{c}&space;\\&space;0,&space;&&space;r_{j&space;i}>r_{c}\end{cases},(6)">
 
 其中 <img src="https://latex.codecogs.com/svg.image?r_{ji}"> 是原子 <img src="https://latex.codecogs.com/svg.image?i"> 和原子 <img src="https://latex.codecogs.com/svg.image?j"> 之间的欧式距离, <img src="https://latex.codecogs.com/svg.image?r_{cs}"> 是"平滑截断半径"。
 
@@ -47,7 +47,7 @@
 
 将输出整理为嵌入矩阵：<img src="https://latex.codecogs.com/svg.image?(\mathcal{G}^{i})_{jk}=(\mathcal{G}(s(r_{ji})))_{k}">
 
-接着 <img src="https://latex.codecogs.com/svg.image?\left\{s\left(r_{ji}\right)\right\}_{j=1}^{N_i}">, 也就是 <img src="https://latex.codecogs.com/svg.image?\tilde{{\mathcal{R}}}^{i}"> 的第一列通过一个嵌入神经网络得到一个嵌入矩阵 <img src="https://latex.codecogs.com/svg.image?\mathcal{G}^{i1}\in\mathbb{R}^{N_{i}\times%20M_{1}}">. 选取 <img src="https://latex.codecogs.com/svg.image?{\mathcal{G}}^{i1}\in\mathbb{R}^{N_{i}\times M_{1}}"> 的前 <img src="https://latex.codecogs.com/svg.image?M_{2}(%3CM_{1})"> 列，我们就得到了另外一个嵌入矩阵 <img src="https://latex.codecogs.com/svg.image?\mathcal{G}^{i2}\in\mathbb{R}^{N_{i}\times%20M_{2}}">.
+接着 <img src="https://latex.codecogs.com/svg.image?\left\{s\left(r_{ji}\right)\right\}_{j=1}^{N_i}">, 也就是 <img src="https://latex.codecogs.com/svg.image?\tilde{{\mathcal{R}}}^{i}"> 的第一列通过一个嵌入神经网络得到一个嵌入矩阵 <img src="https://latex.codecogs.com/svg.image?\mathcal{G}^{i1}\in\mathbb{R}^{N_{i}\times{}M_{1}}">. 选取 <img src="https://latex.codecogs.com/svg.image?{\mathcal{G}}^{i1}\in\mathbb{R}^{N_{i}\times{}M_{1}}"> 的前 <img src="https://latex.codecogs.com/svg.image?M_{2}(%3CM_{1})"> 列，我们就得到了另外一个嵌入矩阵 <img src="https://latex.codecogs.com/svg.image?\mathcal{G}^{i2}\in\mathbb{R}^{N_{i}\times{}M_{2}}">.
 
 ## 4. 对称性特征矩阵
 
@@ -69,11 +69,11 @@
 
 ## 6. 计算物理量
 
-总能量：<img src="https://latex.codecogs.com/svg.image?\displaystyle%20E=\sum_{i}E_{i}">
+总能量：<img src="https://latex.codecogs.com/svg.image?\displaystyle{}E=\sum_{i}E_{i}">
 
 原子力：<img src="https://latex.codecogs.com/svg.image?F=-\nabla_{\mathcal{R}}E">（能量对坐标的负梯度）
 
-维里张量：<img src="https://latex.codecogs.com/svg.image?\Xi=\text{tr}[\mathcal{R}\otimes%20F]">
+维里张量：<img src="https://latex.codecogs.com/svg.image?\Xi=\text{tr}[\mathcal{R}\otimes{}F]">
 
 维里张量（virial tensor）是分子动力学/材料模拟中描述**应力状态**的量，本质上是系统对外部压力的响应
 
@@ -89,6 +89,6 @@
 
 决定，其中 <img src="https://latex.codecogs.com/svg.image?r_{l}(t)"> 和 <img src="https://latex.codecogs.com/svg.image?r_{l}^{0}"> 分别表示在训练步数为 <img src="https://latex.codecogs.com/svg.image?t"> 和训练步数为0 时的学习率。<img src="https://latex.codecogs.com/svg.image?r_{l}(t)"> 的定义为
 
-<img src="https://latex.codecogs.com/svg.image?r_{l}(t)=r_{l}^{0}\times%20d_{r}^{t/d_{s}},(11)">
+<img src="https://latex.codecogs.com/svg.image?r_{l}(t)=r_{l}^{0}\times{}d_{r}^{t/d_{s}},(11)">
 
 其中 <img src="https://latex.codecogs.com/svg.image?d_{r}"> 和 <img src="https://latex.codecogs.com/svg.image?d_{s}"> 分别表示学习衰减率以及衰减步数。学习衰减率 <img src="https://latex.codecogs.com/svg.image?d_{r}"> 要严格小于1。
